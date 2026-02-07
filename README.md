@@ -4,10 +4,10 @@
 
 > **PromptGuard is a lightweight CLI that treats prompts like code—snapshotting, validating, and blocking unsafe or unintended changes before they reach production.**
 
-[![CI Status](https://github.com/vibe-flow-fixer/promptguard/actions/workflows/promptguard.yml/badge.svg)](https://github.com/vibe-flow-fixer/promptguard/actions)
+[![CI Status](https://github.com/mediamarktatti-maker/promptguard/actions/workflows/promptguard.yml/badge.svg)](https://github.com/mediamarktatti-maker/promptguard/actions)
 [![Vibeathon 2026](https://img.shields.io/badge/Vibeathon-Feb%202026-purple?style=for-the-badge)](https://www.bridgemind.ai/vibeathon)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](https://github.com/vibe-flow-fixer/promptguard)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](https://github.com/mediamarktatti-maker/promptguard)
 [![Bun](https://img.shields.io/badge/Bun-1.0+-black?style=for-the-badge)](https://bun.sh/)
 
 ## Who is this for?
