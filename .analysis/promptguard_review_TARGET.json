@@ -1,0 +1,168 @@
+{
+  "target_path": "C:\\Users\\jhons\\Downloads\\exemples\\bloxycode-main\\bloxycode-main",
+  "my_project_path": "C:\\Users\\jhons\\Downloads\\vibe-flow-fixer-main\\vibe-flow-fixer-main",
+  "analysis_timestamp": "2026-02-07T23:20:00Z",
+  "summary": "BloxyCode is a mature, well-architected AI CLI tool with autonomous task execution (Bloxy mode). PromptGuard is a simpler but focused prompt drift detection tool that would benefit significantly from borrowing BloxyCode's demo script structure, test coverage, and CI enhancements.",
+  "target_analysis": {
+    "name": "BloxyCode",
+    "version": "1.2.0",
+    "language": "TypeScript",
+    "runtime": "Bun",
+    "package_manager": "bun",
+    "license": "MIT",
+    "lines_of_code_estimate": "15000+",
+    "test_count": "21 test directories",
+    "architecture": {
+      "type": "CLI + TUI + Server",
+      "modules": ["bloxy", "session", "tool", "agent", "provider", "mcp", "cli", "server", "permission", "config"],
+      "key_features": [
+        "Autonomous task execution from PRD files",
+        "Multi-provider AI support (15+ providers)",
+        "Session management with resume capability",
+        "MCP (Model Context Protocol) integration",
+        "TUI with SolidJS",
+        "Built-in demo script for Vibeathon"
+      ]
+    },
+    "strengths": [
+      "Comprehensive demo script (DEMO_SCRIPT.md) with minute-by-minute breakdown",
+      "Strong test coverage with 21 test directories",
+      "Multi-format PRD support (Markdown, YAML, JSON)",
+      "State persistence with retry logic",
+      "Task auto-completion markers in PRD files",
+      "Professional README with badges and changelog",
+      "Multiple CI workflows (publish, release, code-review)"
+    ]
+  },
+  "my_project_analysis": {
+    "name": "PromptGuard",
+    "version": "1.0.0",
+    "language": "TypeScript",
+    "runtime": "Bun + Vite",
+    "package_manager": "bun/npm",
+    "license": "MIT",
+    "lines_of_code_estimate": "3000",
+    "test_count": 1,
+    "architecture": {
+      "type": "React Frontend + CLI Tools",
+      "modules": ["tools/promptguard.ts", "src/lib/promptguard.ts", "src/components", "src/pages"],
+      "key_features": [
+        "Deterministic prompt drift detection",
+        "Section-based semantic diffing",
+        "JSON schema locking",
+        "FNV-1a hashing (local, no API)",
+        "CLI with beautiful ANSI output",
+        "Interactive browser demo"
+      ]
+    },
+    "weaknesses": [
+      "Only 1 placeholder test (example.test.ts)",
+      "No demo script for video recording",
+      "CI only runs 'check' command, no tests",
+      "Missing: diff --json in CI",
+      "No version badge in README",
+      "No changelog section"
+    ]
+  },
+  "top_issues": [
+    {
+      "priority": "MUST_HAVE",
+      "issue": "Critical test coverage gap",
+      "details": "Only 1 placeholder test. Core functions (stableHash, parseSections, diffBySection, checkPrompt) have zero tests.",
+      "impact": "Judges value execution - tests prove reliability",
+      "fix_time": "2 hours"
+    },
+    {
+      "priority": "MUST_HAVE",
+      "issue": "No demo script for video",
+      "details": "BloxyCode has DEMO_SCRIPT.md with exact commands, timing, and voiceover. PromptGuard has none.",
+      "impact": "Video demo is critical for judging",
+      "fix_time": "30 minutes"
+    },
+    {
+      "priority": "MUST_HAVE",
+      "issue": "CI workflow is minimal",
+      "details": "Only runs 'check' command. Should also run tests and use --json for machine-readable output.",
+      "impact": "Execution quality - CI badge shows professionalism",
+      "fix_time": "15 minutes"
+    },
+    {
+      "priority": "SHOULD_HAVE",
+      "issue": "README lacks version badge and changelog",
+      "details": "README is good but missing version badge and detailed changelog section.",
+      "impact": "Polish and professionalism",
+      "fix_time": "15 minutes"
+    },
+    {
+      "priority": "SHOULD_HAVE",
+      "issue": "No batch/watch mode for CLI",
+      "details": "BloxyCode has autonomous mode. PromptGuard CLI is single-command only.",
+      "impact": "Usefulness - automation for larger teams",
+      "fix_time": "3 hours"
+    },
+    {
+      "priority": "NICE_TO_HAVE",
+      "issue": "No multi-format support",
+      "details": "BloxyCode parses MD/YAML/JSON PRDs. PromptGuard only handles .md prompts.",
+      "impact": "Flexibility for different workflows",
+      "fix_time": "2 hours"
+    }
+  ],
+  "features_to_borrow": [
+    {
+      "feature": "Demo Script Document",
+      "source_file": "DEMO_SCRIPT.md",
+      "why": "Professional demo video is essential for Vibeathon judging. BloxyCode's structure is battle-tested.",
+      "integration_plan": "Create DEMO_SCRIPT.md with minute-by-minute breakdown for PromptGuard"
+    },
+    {
+      "feature": "State Persistence Pattern",
+      "source_file": "src/bloxy/state.ts",
+      "why": "Robust state management with Zod schemas, file persistence, and recovery",
+      "integration_plan": "Apply similar pattern to track snapshot history with richer metadata"
+    },
+    {
+      "feature": "Multi-format Parser",
+      "source_file": "src/bloxy/parser.ts",
+      "why": "Supports MD/YAML/JSON - more flexibility for users",
+      "integration_plan": "Extend promptguard to accept YAML/JSON prompt definitions"
+    },
+    {
+      "feature": "Task Auto-marking",
+      "source_file": "src/bloxy/parser.ts:markTaskInFile",
+      "why": "Automatically marks tasks complete in source file - satisfying UX",
+      "integration_plan": "Could add auto-update of snapshot metadata after successful check"
+    }
+  ],
+  "patches": [
+    {
+      "file": "src/test/promptguard.test.ts",
+      "description": "Add comprehensive tests for core promptguard functions",
+      "patch": "--- /dev/null\n+++ b/src/test/promptguard.test.ts\n@@ -0,0 +1,89 @@\n+import { describe, it, expect } from 'vitest';\n+import {\n+  stableHash,\n+  normalizePrompt,\n+  parseSections,\n+  extractFirstJsonFence,\n+  checkPrompt,\n+  diffBySection,\n+} from '../lib/promptguard';\n+\n+describe('stableHash', () => {\n+  it('returns consistent hash for same input', () => {\n+    const h1 = stableHash('hello world');\n+    const h2 = stableHash('hello world');\n+    expect(h1).toBe(h2);\n+    expect(h1).toMatch(/^[0-9a-f]{8}$/);\n+  });\n+\n+  it('returns different hash for different input', () => {\n+    expect(stableHash('a')).not.toBe(stableHash('b'));\n+  });\n+});\n+\n+describe('normalizePrompt', () => {\n+  it('normalizes CRLF to LF', () => {\n+    expect(normalizePrompt('a\\r\\nb')).toBe('a\\nb\\n');\n+  });\n+\n+  it('trims trailing whitespace on lines', () => {\n+    expect(normalizePrompt('hello   \\nworld')).toBe('hello\\nworld\\n');\n+  });\n+\n+  it('collapses multiple blank lines', () => {\n+    expect(normalizePrompt('a\\n\\n\\n\\nb')).toBe('a\\n\\nb\\n');\n+  });\n+});\n+\n+describe('parseSections', () => {\n+  it('extracts sections from markdown', () => {\n+    const md = '# Title\\ncontent\\n## Section\\nmore';\n+    const sections = parseSections(md);\n+    expect(sections.length).toBeGreaterThan(0);\n+    expect(sections.some(s => s.title === 'Title')).toBe(true);\n+  });\n+\n+  it('handles preamble before first heading', () => {\n+    const md = 'preamble\\n# First';\n+    const sections = parseSections(md);\n+    expect(sections[0].title).toBe('__preamble__');\n+  });\n+});\n+\n+describe('extractFirstJsonFence', () => {\n+  it('extracts JSON from fenced block', () => {\n+    const md = 'text\\n```json\\n{\"key\": \"value\"}\\n```\\nmore';\n+    expect(extractFirstJsonFence(md)).toBe('{\"key\": \"value\"}');\n+  });\n+\n+  it('returns null if no JSON fence', () => {\n+    expect(extractFirstJsonFence('# No JSON')).toBeNull();\n+  });\n+});\n+\n+describe('checkPrompt', () => {\n+  it('passes with all required headings', () => {\n+    const md = '# Goal\\ndo stuff\\n# Output\\nresult';\n+    const result = checkPrompt(md, { requiredHeadings: ['Goal', 'Output'] });\n+    expect(result.ok).toBe(true);\n+  });\n+\n+  it('fails with missing required heading', () => {\n+    const md = '# Goal\\nstuff';\n+    const result = checkPrompt(md, { requiredHeadings: ['Goal', 'Missing'] });\n+    expect(result.ok).toBe(false);\n+    if (!result.ok) {\n+      expect(result.errors).toContain('Missing required heading: \"Missing\"');\n+    }\n+  });\n+});\n+\n+describe('diffBySection', () => {\n+  it('detects changed sections', () => {\n+    const old = '# Goal\\nold content';\n+    const newMd = '# Goal\\nnew content';\n+    const diffs = diffBySection(old, newMd);\n+    expect(diffs.find(d => d.title === 'Goal')?.changed).toBe(true);\n+  });\n+\n+  it('detects unchanged sections', () => {\n+    const md = '# Goal\\nsame';\n+    const diffs = diffBySection(md, md);\n+    expect(diffs.every(d => !d.changed)).toBe(true);\n+  });\n+});\n"
+    },
+    {
+      "file": ".github/workflows/promptguard.yml",
+      "description": "Enhanced CI workflow with tests and JSON output",
+      "patch": "--- a/.github/workflows/promptguard.yml\n+++ b/.github/workflows/promptguard.yml\n@@ -1,24 +1,42 @@\n name: PromptGuard CI\n \n on:\n   push:\n     branches: [main]\n   pull_request:\n \n jobs:\n   promptguard:\n     runs-on: ubuntu-latest\n     steps:\n       - uses: actions/checkout@v4\n \n       - name: Setup Bun\n         uses: oven-sh/setup-bun@v2\n         with:\n           bun-version: latest\n \n       - name: Install dependencies\n         run: bun install\n \n+      - name: Run tests\n+        run: bun test\n+\n       - name: PromptGuard check\n-        run: bun tools/promptguard.ts check\n+        run: bun tools/promptguard.ts check --json > promptguard-report.json\n+\n+      - name: Upload PromptGuard report\n+        uses: actions/upload-artifact@v4\n+        with:\n+          name: promptguard-report\n+          path: promptguard-report.json\n+        if: always()\n"
+    },
+    {
+      "file": "DEMO_SCRIPT.md",
+      "description": "Demo script for Vibeathon video submission",
+      "patch": "--- /dev/null\n+++ b/DEMO_SCRIPT.md\n@@ -0,0 +1,150 @@\n+# PromptGuard Demo Video Script\n+## Vibeathon Submission (3-5 minutes)\n+\n+---\n+\n+## Pre-Recording Checklist\n+\n+- [ ] Clean terminal with dark theme\n+- [ ] Font size 16pt+ for readability\n+- [ ] Browser open to localhost:5173 (demo page)\n+- [ ] Sample prompts in prompts/ directory\n+- [ ] Screen recording software ready\n+\n+---\n+\n+## Video Script\n+\n+### INTRO (0:00 - 0:30)\n+\n+**[SCREEN: PromptGuard logo or terminal]**\n+\n+**SAY:**\n+> \"Hi! I'm [Name], and this is PromptGuard—a tool that treats your prompts like code.\n+>\n+> If you've ever had an AI agent stop working because someone changed a word in a prompt, this is for you.\n+>\n+> Let me show you how it catches drift before it breaks production.\"\n+\n+---\n+\n+### PROBLEM (0:30 - 1:00)\n+\n+**[SCREEN: Show a before/after prompt diff]**\n+\n+**SAY:**\n+> \"Here's the problem: prompts drift silently. Someone adds a sentence, removes a constraint, and suddenly your agent is hallucinating.\n+>\n+> PromptGuard snapshots your prompts, detects changes section-by-section, and fails loud when something drifts.\"\n+\n+---\n+\n+### DEMO: INIT & SNAPSHOT (1:00 - 2:00)\n+\n+**[SCREEN: Terminal]**\n+\n+**DO:**\n+```bash\n+cd my-project\n+bun tools/promptguard.ts init\n+cat prompts/example.prompt.md\n+bun tools/promptguard.ts snapshot prompts/example.prompt.md -m \"baseline\"\n+```\n+\n+**SAY:**\n+> \"First, we initialize PromptGuard. It discovers all prompts and creates a manifest.\n+>\n+> Then we snapshot our baseline. This is like a git commit for your prompt—it's now locked.\"\n+\n+---\n+\n+### DEMO: DETECT DRIFT (2:00 - 3:00)\n+\n+**[SCREEN: Edit prompt in editor, then terminal]**\n+\n+**DO:**\n+1. Edit prompts/example.prompt.md (change one section)\n+2. Run: `bun tools/promptguard.ts diff prompts/example.prompt.md`\n+3. Run: `bun tools/promptguard.ts check`\n+\n+**SAY:**\n+> \"Now I'll change one section. Watch what happens when we diff.\n+>\n+> PromptGuard shows exactly WHAT changed—by section. Not just 'file changed'\n+>\n+> And if we run check, it fails loud. Perfect for CI.\"\n+\n+---\n+\n+### DEMO: BROWSER DEMO (3:00 - 3:45)\n+\n+**[SCREEN: Browser at localhost:5173]**\n+\n+**DO:**\n+1. Show the interactive demo page\n+2. Edit a prompt in the left panel\n+3. Watch the diff appear in real-time\n+\n+**SAY:**\n+> \"And here's the best part—we have an interactive demo right in the browser.\n+>\n+> You can see live diffs as you type. Great for experimenting.\"\n+\n+---\n+\n+### KEY FEATURES (3:45 - 4:15)\n+\n+**[SCREEN: Feature highlights]**\n+\n+**SAY:**\n+> \"What makes PromptGuard special:\n+>\n+> **One**: 100% local. No API calls. Uses hashing, not LLMs.\n+>\n+> **Two**: Section-aware diffs. See exactly what changed.\n+>\n+> **Three**: JSON schema locking. Freeze your output format.\n+>\n+> **Four**: Fail loud in CI. Stop drift before production.\"\n+\n+---\n+\n+### CALL TO ACTION (4:15 - 4:45)\n+\n+**[SCREEN: GitHub URL]**\n+\n+**SAY:**\n+> \"PromptGuard is open source at github.com/vibe-flow-fixer/promptguard.\n+>\n+> If you're tired of 'it worked yesterday' failures, give it a try.\n+>\n+> Don't guess. Guard.\"\n+\n+---\n+\n+## Key Phrases (align with judging criteria)\n+\n+| Criteria | What to Say |\n+|----------|-------------|\n+| Usefulness (40%) | \"Stop drift before production\" |\n+| Impact (25%) | \"No more 'it worked yesterday'\" |\n+| Execution (20%) | \"100% local, git-native, CI-ready\" |\n+| Innovation (15%) | \"Section-aware semantic diffing\" |\n+\n+---\n+\n+## Recording Tips\n+\n+1. Use 1.5x speed for long operations\n+2. Add text overlays for commands\n+3. Background lo-fi music (low volume)\n+4. Target length: 3:30-4:30\n"
+    }
+  ],
+  "demo_script": "See patches array entry for DEMO_SCRIPT.md - full script included",
+  "readme_improvements": [
+    "Add version badge: ![Version](https://img.shields.io/badge/version-1.0.0-blue)",
+    "Add Vibeathon badge like BloxyCode",
+    "Add Changelog section at bottom",
+    "Add 'Demo Video' section with link"
+  ],
+  "submission_text": {
+    "one_sentence_pitch": "PromptGuard stops prompt drift by snapshotting, diffing, and failing loud—100% local, zero API calls.",
+    "three_line_summary": "PromptGuard treats prompts like code: snapshot baselines, detect section-level drift, and fail loud in CI. Uses local hashing (no LLM calls), supports JSON schema locking, and provides beautiful CLI output. Built for teams tired of 'it worked yesterday' failures.",
+    "discord_username": "[YOUR_DISCORD]",
+    "repo_url": "https://github.com/vibe-flow-fixer/promptguard",
+    "demo_link": "[YOUR_DEMO_LINK]"
+  }
+}

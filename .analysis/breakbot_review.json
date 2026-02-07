@@ -1,0 +1,144 @@
+{
+    "target_path": "C:\\Users\\jhons\\Downloads\\exemples\\breakbot-main\\breakbot-main",
+    "my_project_path": "C:\\Users\\jhons\\Downloads\\vibe-flow-fixer-main\\vibe-flow-fixer-main",
+    "analysis_timestamp": "2026-02-07T23:40:00Z",
+    "summary": "BreakBot is a compact MCP server (~800 LOC) for responsive design testing. Lower complexity than PromptGuard but has useful patterns: structured issue reports with severity levels, markdown table generation, and issue deduplication. No tests or CI to learn from, but report formatting patterns are valuable.",
+    "target_analysis": {
+        "name": "BreakBot",
+        "version": "0.1.0",
+        "language": "TypeScript",
+        "runtime": "Node.js",
+        "package_manager": "npm",
+        "license": "MIT",
+        "lines_of_code_estimate": "~800",
+        "test_count": 0,
+        "dependencies": [
+            "@modelcontextprotocol/sdk",
+            "puppeteer",
+            "zod"
+        ],
+        "architecture": {
+            "type": "MCP Server (CLI)",
+            "modules": [
+                "index.ts (main)",
+                "lib/dom-analyzer.ts",
+                "lib/screenshot.ts",
+                "lib/ios-simulator.ts",
+                "lib/viewports.ts"
+            ],
+            "key_features": [
+                "DOM-based responsive testing (no AI cost)",
+                "9 viewport sizes covering Tailwind breakpoints",
+                "iOS Simulator support (macOS)",
+                "Puppeteer for headless browser testing",
+                "Structured markdown reports",
+                "Issue severity categorization"
+            ]
+        },
+        "strengths": [
+            "Clean architecture with separated concerns",
+            "Structured issue types with severity levels",
+            "Token-optimized markdown report generation",
+            "Issue deduplication across viewports",
+            "Tailwind breakpoint awareness",
+            "Clear README with tool documentation"
+        ],
+        "weaknesses": [
+            "No tests at all",
+            "No CI/CD pipeline",
+            "No .env.example usage documentation",
+            "No demo script for video",
+            "No badges or changelog"
+        ]
+    },
+    "features_to_borrow": [
+        {
+            "feature": "Severity Levels for Issues",
+            "source_file": "src/lib/dom-analyzer.ts",
+            "why": "BreakBot categorizes issues as high/medium/low severity. PromptGuard could categorize drift by severity (e.g., structural vs cosmetic changes)",
+            "integration_plan": "Add severity to diffBySection output: 'critical' (section deleted), 'high' (content changed significantly), 'low' (whitespace only)",
+            "priority": "NICE_TO_HAVE",
+            "time_estimate": "2 hours"
+        },
+        {
+            "feature": "Issue Deduplication Pattern",
+            "source_file": "src/index.ts:60-90",
+            "why": "BreakBot deduplicates issues across viewports. PromptGuard could deduplicate warnings across multiple prompts in batch mode",
+            "integration_plan": "When checking multiple prompts, group similar errors (like 'missing Goal heading') into one message",
+            "priority": "NICE_TO_HAVE",
+            "time_estimate": "1 hour"
+        },
+        {
+            "feature": "Token-Optimized Report Format",
+            "source_file": "src/index.ts:36-125",
+            "why": "Compact table format for reports, good for CLI display and AI context windows",
+            "integration_plan": "Already using box() formatting in promptguard.ts, but could add compact table for multi-file check results",
+            "priority": "NICE_TO_HAVE",
+            "time_estimate": "1 hour"
+        },
+        {
+            "feature": "Suggested Fix with Each Issue",
+            "source_file": "src/lib/dom-analyzer.ts:145-172",
+            "why": "Each issue includes a suggestedFix field. PromptGuard could suggest fixes like 'add ## Goal heading'",
+            "integration_plan": "Enhance checkPrompt errors to include actionable fix suggestions",
+            "priority": "SHOULD_HAVE",
+            "time_estimate": "30 minutes"
+        }
+    ],
+    "top_issues": [
+        {
+            "priority": "SHOULD_HAVE",
+            "issue": "Add fix suggestions to PromptGuard error messages",
+            "details": "BreakBot includes suggestedFix with every issue. PromptGuard errors like 'Missing required heading' should include the fix: 'Add ## Goal heading to your prompt'",
+            "impact": "Improves usefulness - actionable errors are more helpful",
+            "fix_time": "30 minutes",
+            "files": [
+                "tools/promptguard.ts",
+                "src/lib/promptguard.ts"
+            ]
+        },
+        {
+            "priority": "NICE_TO_HAVE",
+            "issue": "Add severity levels to diff output",
+            "details": "Categorize changes as 'critical' (section removed), 'major' (content changed), 'minor' (formatting)",
+            "impact": "Helps users prioritize which diffs to review",
+            "fix_time": "2 hours",
+            "files": [
+                "src/lib/promptguard.ts"
+            ]
+        },
+        {
+            "priority": "NICE_TO_HAVE",
+            "issue": "Add batch mode table output",
+            "details": "When checking multiple prompts, show compact table like BreakBot's viewport table",
+            "impact": "Better UX for large prompt collections",
+            "fix_time": "1 hour",
+            "files": [
+                "tools/promptguard.ts"
+            ]
+        }
+    ],
+    "patches": [
+        {
+            "file": "src/lib/promptguard.ts",
+            "description": "Add suggested fixes to checkPrompt errors",
+            "patch": "--- a/src/lib/promptguard.ts\n+++ b/src/lib/promptguard.ts\n@@ -87,7 +87,7 @@ export function checkPrompt(markdown: string, config: PromptGuardConfig): Prompt\n   const required = (config.requiredHeadings ?? []).map((h) => h.trim()).filter(Boolean);\n   for (const h of required) {\n     if (!headingTitles.has(h.toLowerCase())) {\n-      errors.push(`Missing required heading: \"${h}\"`);\n+      errors.push(`Missing required heading: \"${h}\" — add \\`## ${h}\\` to your prompt`);\n     }\n   }\n \n@@ -94,7 +94,7 @@ export function checkPrompt(markdown: string, config: PromptGuardConfig): Prompt\n   if (config.requireJsonBlock) {\n     const json = extractFirstJsonFence(markdown);\n-    if (!json) errors.push(\"Missing required fenced JSON block (```json ... ```) in prompt\");\n+    if (!json) errors.push(\"Missing required fenced JSON block — add \\`\\`\\`json\\\\n{...}\\\\n\\`\\`\\` to your prompt\");\n   }\n"
+        }
+    ],
+    "comparison_summary": {
+        "breakbot_has_promptguard_lacks": [
+            "Severity levels for issues",
+            "Suggested fixes inline with errors",
+            "Issue grouping/deduplication across multiple targets"
+        ],
+        "promptguard_has_breakbot_lacks": [
+            "Test coverage (30 tests)",
+            "CI/CD pipeline",
+            "Demo script",
+            "Interactive browser demo",
+            "Comprehensive README with badges",
+            "Changelog"
+        ],
+        "conclusion": "PromptGuard is more mature than BreakBot. Main learning: add suggested fixes to error messages."
+    }
+}

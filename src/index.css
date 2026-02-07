@@ -1,0 +1,400 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* PromptGuard theme: "midnight paper" + electric accents */
+    --background: 225 28% 98%;
+    --foreground: 228 32% 10%;
+
+    --surface: 225 28% 100%;
+    --surface-2: 225 22% 96%;
+
+    --card: 225 28% 100%;
+    --card-foreground: 228 32% 10%;
+
+    --popover: 225 28% 100%;
+    --popover-foreground: 228 32% 10%;
+
+    --primary: 243 76% 56%;
+    --primary-glow: 190 92% 55%;
+    --primary-foreground: 225 28% 98%;
+
+    --secondary: 225 22% 96%;
+    --secondary-foreground: 228 32% 14%;
+
+    --muted: 225 22% 96%;
+    --muted-foreground: 226 14% 44%;
+
+    --accent: 190 92% 55%;
+    --accent-2: 282 83% 64%;
+    --accent-foreground: 228 32% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 225 28% 98%;
+
+    --border: 225 18% 88%;
+    --input: 225 18% 88%;
+    --ring: 243 76% 56%;
+
+    --radius: 1rem;
+
+    --gradient-hero: linear-gradient(135deg,
+        hsl(var(--primary) / 0.20) 0%,
+        hsl(var(--primary-glow) / 0.16) 45%,
+        hsl(var(--accent-2) / 0.14) 100%);
+    --gradient-wash: radial-gradient(1100px circle at var(--spot-x, 30%) var(--spot-y, 30%),
+        hsl(var(--primary-glow) / 0.22),
+        transparent 55%);
+
+    --shadow-lift: 0 18px 60px -24px hsl(var(--foreground) / 0.35);
+    --shadow-glow: 0 14px 60px -22px hsl(var(--primary-glow) / 0.45);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Ancient Empire Theme: Charcoal, Crimson, Gold, Stone */
+    --background: 0 0% 8%;
+    /* Deep charcoal black */
+    --foreground: 40 20% 94%;
+    /* Parchment white */
+
+    --surface: 30 5% 11%;
+    /* Dark stone */
+    --surface-2: 25 8% 15%;
+    /* Warm stone gray */
+
+    --card: 30 5% 11%;
+    --card-foreground: 40 20% 94%;
+
+    --popover: 30 5% 11%;
+    --popover-foreground: 40 20% 94%;
+
+    --primary: 0 72% 30%;
+    /* Deep crimson */
+    --primary-glow: 25 100% 50%;
+    /* Ember orange */
+    --primary-foreground: 40 20% 94%;
+
+    --secondary: 25 8% 15%;
+    --secondary-foreground: 40 20% 94%;
+
+    --muted: 25 8% 18%;
+    --muted-foreground: 35 10% 55%;
+    /* Ash gray */
+
+    --accent: 43 74% 40%;
+    /* Dark gold */
+    --accent-2: 35 55% 45%;
+    /* Antique bronze */
+    --accent-foreground: 0 0% 8%;
+
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 40 20% 94%;
+
+    --border: 30 10% 20%;
+    /* Stone border */
+    --input: 30 10% 20%;
+    --ring: 43 74% 40%;
+    /* Gold ring */
+
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 40 20% 94%;
+    --sidebar-primary: 0 72% 30%;
+    --sidebar-primary-foreground: 40 20% 94%;
+    --sidebar-accent: 25 8% 15%;
+    --sidebar-accent-foreground: 40 20% 94%;
+    --sidebar-border: 30 10% 20%;
+    --sidebar-ring: 43 74% 40%;
+
+    --gradient-hero: linear-gradient(135deg,
+        hsl(0 72% 30% / 0.15) 0%,
+        hsl(25 100% 50% / 0.10) 50%,
+        hsl(43 74% 40% / 0.08) 100%);
+    --gradient-wash: radial-gradient(1100px circle at var(--spot-x, 30%) var(--spot-y, 30%),
+        hsl(25 100% 50% / 0.12),
+        transparent 55%);
+
+    --shadow-lift: 0 22px 70px -34px hsl(0 0% 0% / 0.75);
+    --shadow-glow: 0 18px 70px -30px hsl(25 100% 50% / 0.30);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .bg-hero {
+    background-image: var(--gradient-hero), var(--gradient-wash);
+    background-repeat: no-repeat;
+  }
+
+  /* 🏆 WINNING VISUALS 🏆 */
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--surface));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 5px;
+    border: 2px solid hsl(var(--surface));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+
+  /* Scanner Line Animation */
+  @keyframes scan {
+    0% {
+      top: 0%;
+      opacity: 0;
+    }
+
+    10% {
+      opacity: 1;
+      box-shadow: 0 0 15px hsl(var(--primary));
+    }
+
+    90% {
+      opacity: 1;
+      box-shadow: 0 0 15px hsl(var(--primary));
+    }
+
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+
+  .animate-scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: hsl(var(--primary));
+    opacity: 0.6;
+    animation: scan 1.5s linear infinite;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  /* Confetti Animation */
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(-100%) rotate(0deg);
+    }
+
+    100% {
+      transform: translateY(100vh) rotate(720deg);
+    }
+  }
+
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color);
+    top: -10px;
+    z-index: 9999;
+    animation: confetti-fall 3s linear forwards;
+  }
+
+  /* Shake animation for errors */
+  @keyframes shake {
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-4px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(4px);
+    }
+  }
+
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+
+  /* Enter animation for status changes */
+  @keyframes enter {
+    0% {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-enter {
+    animation: enter 0.3s ease-out;
+  }
+
+  /* Pulse glow effect */
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      box-shadow: var(--shadow-glow);
+    }
+
+    50% {
+      box-shadow: 0 0 40px 8px hsl(var(--primary-glow) / 0.4);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Typing cursor effect */
+  @keyframes blink {
+
+    0%,
+    50% {
+      opacity: 1;
+    }
+
+    51%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .typing-cursor::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: hsl(var(--primary));
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Fade in up animation */
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out;
+  }
+
+  /* Stagger children animation */
+  .stagger-children>* {
+    animation: fade-in-up 0.4s ease-out both;
+  }
+
+  .stagger-children>*:nth-child(1) {
+    animation-delay: 0ms;
+  }
+
+  .stagger-children>*:nth-child(2) {
+    animation-delay: 100ms;
+  }
+
+  .stagger-children>*:nth-child(3) {
+    animation-delay: 200ms;
+  }
+
+  .stagger-children>*:nth-child(4) {
+    animation-delay: 300ms;
+  }
+
+  .stagger-children>*:nth-child(5) {
+    animation-delay: 400ms;
+  }
+
+  /* Terminal-style output */
+  .terminal-text {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  }
+
+  /* Glow border effect */
+  .border-glow {
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.3),
+      0 0 20px -5px hsl(var(--primary-glow) / 0.2);
+  }
+
+  /* Ancient Empire Typography */
+  .font-cinzel {
+    font-family: 'Cinzel', 'Times New Roman', serif;
+  }
+
+  .font-cormorant {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-serif {
+    font-family: 'Source Serif 4', 'Times New Roman', serif;
+  }
+
+  /* Gold gradient text for Ancient Empire */
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(43 74% 50%), hsl(35 55% 60%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}

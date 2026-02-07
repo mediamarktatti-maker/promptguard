@@ -1,0 +1,5 @@
+{
+  "snapshots": "git",
+  "requiredHeadings": ["Goal", "Constraints", "Output", "Examples", "Failure modes"],
+  "schemaLocks": {}
+}
