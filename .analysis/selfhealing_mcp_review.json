@@ -1,0 +1,53 @@
+{
+    "target_path": "C:\\Users\\jhons\\Downloads\\exemples\\Self-Healing-MCP-Runner-main\\Self-Healing-MCP-Runner-main",
+    "my_project_path": "C:\\Users\\jhons\\Downloads\\vibe-flow-fixer-main\\vibe-flow-fixer-main",
+    "analysis_timestamp": "2026-02-07T23:54:00Z",
+    "summary": "Self-Healing MCP Runner is an MCP server for auto-fixing build errors. Has doctor command with severity levels and fix commands - pattern already in PromptGuard. No new features to borrow.",
+    "target_analysis": {
+        "name": "Self-Healing MCP Runner",
+        "version": "0.1.0",
+        "language": "TypeScript",
+        "runtime": "Node.js",
+        "license": "MIT",
+        "lines_of_code_estimate": "~500",
+        "test_count": 6,
+        "dependencies": [
+            "@modelcontextprotocol/sdk",
+            "chalk",
+            "express",
+            "ora",
+            "zod"
+        ],
+        "architecture": {
+            "type": "MCP Server",
+            "components": [
+                "server.ts",
+                "runner.ts",
+                "classify.ts",
+                "fixes.ts",
+                "loop.ts",
+                "memory.ts",
+                "doctor.ts"
+            ],
+            "features": [
+                "Error classification (regex)",
+                "Auto-fix strategies",
+                "Self-healing retry loop (max 3)",
+                "Project doctor with severity levels",
+                "Context memory (JSON file)"
+            ]
+        }
+    },
+    "features_to_borrow": [],
+    "comparison_summary": {
+        "overlap": "Both have doctor command with fix suggestions",
+        "promptguard_already_has": [
+            "Doctor command",
+            "Actionable error messages with fix suggestions",
+            "Severity levels in errors"
+        ],
+        "no_new_features": true,
+        "conclusion": "PromptGuard already implements the key patterns from this project"
+    },
+    "verdict": "NO_ACTION_NEEDED - PromptGuard already has these patterns"
+}
