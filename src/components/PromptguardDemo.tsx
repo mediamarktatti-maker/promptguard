@@ -480,9 +480,40 @@ export function PromptguardDemo() {
     </div>
   );
 
+  const HeaderStatus = () => (
+    <div className="flex items-center gap-3">
+      {status === "error" ? (
+        <div className="flex items-center gap-1.5 rounded-full bg-red-500/10 px-3 py-1 text-red-500 animate-pulse border border-red-500/20">
+          <Shield className="h-4 w-4" />
+          <span className="text-xs font-bold tracking-wide">DRIFT DETECTED</span>
+        </div>
+      ) : (
+        <div className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-500 border border-emerald-500/20 shadow-glow-sm">
+          <Shield className="h-4 w-4" />
+          <span className="text-xs font-bold tracking-wide">SYSTEM SECURE</span>
+        </div>
+      )}
+      <div className="h-6 w-px bg-border mx-1" />
+      <div className="flex items-center gap-2 text-muted-foreground">
+        <span className="text-xs font-mono">v1.0.0</span>
+      </div>
+    </div>
+  );
+
   return (
     <div className="grid gap-6 relative">
       {showConfetti && <Confetti />}
+
+      <div className="flex items-center justify-between pb-2 border-b">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            PromptGuard Terminal
+          </h2>
+          <p className="text-sm text-muted-foreground">Local, deterministic prompt testing.</p>
+        </div>
+        <HeaderStatus />
+      </div>
+
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* ... tabs list ... */}
         <TabsList className="grid w-full grid-cols-4 mb-4">
@@ -513,6 +544,34 @@ export function PromptguardDemo() {
                 <Button variant="outline" size="sm" onClick={() => setFullscreen(true)}>
                   <Maximize2 className="mr-2 h-4 w-4" />
                   Full screen
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => {
+                  navigator.clipboard.writeText(current);
+                  // We need a toast here, but for now we'll just rely on the button feedback or add a simple alert if toast isn't available in this scope.
+                  // Actually, let's use the 'output' to show a temporary message if we can, or just let the user know.
+                  // Since we have a status line, let's use that!
+                  setOutput("✅ Copied prompt to clipboard!");
+                  setStatus("ok");
+                  setStatusPulseKey(k => k + 1);
+                }}>
+                  <div className="flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="mr-2 h-4 w-4"
+                    >
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                    </svg>
+                    Copy
+                  </div>
                 </Button>
                 <Button variant="outline" size="sm" onClick={importPrompt}>
                   <Upload className="mr-2 h-4 w-4" />
