@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "prompts": {
+    "prompts/code-review.prompt.md": {},
+    "prompts/example.prompt.md": {
+      "lastSnapshotPath": ".promptguard/history/prompts-example.prompt.md/2026-02-08T16-57-24-086Z.md",
+      "lastSnapshotSha": "9427f346",
+      "lastSnapshotAt": "2026-02-08T16:57:24.087Z"
+    },
+    "prompts/translation.prompt.md": {}
+  }
+}
