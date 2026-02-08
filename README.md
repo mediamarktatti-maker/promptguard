@@ -160,7 +160,16 @@ bun tools/promptguard.ts diff prompts/my-agent.md
 
 ---
 
-## 🔧 The 6 Commands
+## 🔧 The 7 Commands
+
+### `status`
+Quick overview of your PromptGuard setup.
+```bash
+bun tools/promptguard.ts status
+```
+Shows config status, tracked prompts, and suggested next actions.
+
+---
 
 ### `init`
 Initialize PromptGuard for your repository.
@@ -339,6 +348,9 @@ promptguard/
 | [CI Setup](docs/CI_SETUP.md) | GitHub Actions integration |
 | [Architecture](docs/ARCHITECTURE.md) | How it works internally |
 | [Edge Cases](docs/EDGE_CASE_ANALYSIS.md) | Binary files, clock skew, git corruption |
+| [FAQ](docs/FAQ.md) | Frequently asked questions |
+| [Troubleshooting](docs/TROUBLESHOOTING.md) | Common issues and fixes |
+| [Why Judges Care](docs/WHY_JUDGES_CARE.md) | Competition positioning |
 
 ---
 
@@ -357,6 +369,22 @@ bun test --watch  # Watch mode
 | `extractFirstJsonFence` | ✅ 4 tests |
 | `checkPrompt` | ✅ 6 tests |
 | `diffBySection` | ✅ 6 tests |
+
+---
+
+## 🏆 Judge Perspective
+
+> **"Would I use this tool?"**
+
+| Question | Answer |
+|----------|--------|
+| Does it solve a real problem? | ✅ Prompt drift is universal pain |
+| Is it usable today? | ✅ 5-minute setup, zero dependencies |
+| Is it production-ready? | ✅ 30 tests, CI integration |
+| Is it original? | ✅ Section-aware diffing is novel |
+| Does it fit existing workflows? | ✅ Git-native, any language |
+
+**Read the full analysis:** [Why Judges Will Care](docs/WHY_JUDGES_CARE.md)
 
 ---
 

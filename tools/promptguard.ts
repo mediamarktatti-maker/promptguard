@@ -519,28 +519,101 @@ function cmdDoctor() {
   process.exit(exitCode);
 }
 
+function cmdStatus() {
+  const cfg = loadConfig();
+  const m = fs.existsSync(MANIFEST_PATH) ? loadManifest() : null;
+
+  console.log(`\n${c.bold}🛡️  PromptGuard Status${c.reset}\n`);
+
+  // Config status
+  if (fs.existsSync(CONFIG_PATH)) {
+    console.log(`${c.green}✓${c.reset} Config: ${c.cyan}promptguard.config.json${c.reset}`);
+    console.log(`  ${c.dim}└─ ${cfg.requiredHeadings?.length || 0} required headings${c.reset}`);
+  } else {
+    console.log(`${c.yellow}⚠${c.reset} Config: ${c.dim}Not found (using defaults)${c.reset}`);
+  }
+
+  // Manifest status
+  if (m) {
+    const files = Object.keys(m.prompts);
+    const snapshotted = files.filter(f => m.prompts[f].lastSnapshotPath).length;
+    console.log(`${c.green}✓${c.reset} Manifest: ${c.cyan}.promptguard/manifest.json${c.reset}`);
+    console.log(`  ${c.dim}└─ ${files.length} prompts tracked, ${snapshotted} snapshotted${c.reset}`);
+  } else {
+    console.log(`${c.red}✗${c.reset} Manifest: ${c.dim}Not found${c.reset}`);
+    console.log(`  ${c.dim}└─ Run: ${c.cyan}bun tools/promptguard.ts init${c.reset}`);
+  }
+
+  // Quick health check
+  console.log(`\n${c.bold}Quick Actions:${c.reset}`);
+  if (!m) {
+    console.log(`  ${c.yellow}→${c.reset} Initialize: ${c.cyan}bun tools/promptguard.ts init${c.reset}`);
+  } else {
+    console.log(`  ${c.green}→${c.reset} Check prompts: ${c.cyan}bun tools/promptguard.ts check${c.reset}`);
+    console.log(`  ${c.green}→${c.reset} Full diagnosis: ${c.cyan}bun tools/promptguard.ts doctor${c.reset}`);
+  }
+  console.log();
+}
+
+function cmdVersion() {
+  console.log(`${c.bold}promptguard${c.reset} v1.0.0`);
+  console.log(`${c.dim}Deterministic prompt drift guard${c.reset}`);
+  console.log(`${c.dim}https://github.com/mediamarktatti-maker/promptguard${c.reset}`);
+}
+
 function cmdHelp() {
   console.log(`
-${c.bold}🛡️  promptguard${c.reset} ${c.dim}(local deterministic drift guard)${c.reset}
+${c.bold}🛡️  PromptGuard${c.reset} ${c.dim}v1.0.0${c.reset}
+${c.dim}Deterministic prompt drift guard — treat prompts like code${c.reset}
 
 ${c.bold}Usage:${c.reset}
-  ${c.cyan}bun tools/promptguard.ts${c.reset} <command> [args]
+  ${c.cyan}bun tools/promptguard.ts${c.reset} <command> [options]
 
 ${c.bold}Commands:${c.reset}
   ${c.green}init${c.reset}                        Initialize .promptguard/ and config
+  ${c.green}status${c.reset}                      Show current PromptGuard status
   ${c.green}snapshot${c.reset} <file> -m <msg>    Create a baseline snapshot
-  ${c.green}diff${c.reset} <file>               Compare current prompt vs snapshot
-  ${c.green}lock${c.reset} <file>               Lock JSON schema contract
-  ${c.green}check${c.reset}                     Verify all prompts against rules
-  ${c.green}doctor${c.reset}                    Diagnose setup issues
+  ${c.green}diff${c.reset} <file> [--json]        Compare current prompt vs snapshot
+  ${c.green}lock${c.reset} <file>                 Lock JSON schema contract
+  ${c.green}check${c.reset} [--json]              Verify all prompts against rules
+  ${c.green}doctor${c.reset}                      Diagnose setup issues
+
+${c.bold}Options:${c.reset}
+  ${c.yellow}--json${c.reset}                      Output machine-readable JSON (for CI)
+  ${c.yellow}--version, -v${c.reset}               Show version number
+  ${c.yellow}--help, -h${c.reset}                  Show this help message
+
+${c.bold}Examples:${c.reset}
+  ${c.dim}# First-time setup${c.reset}
+  ${c.cyan}bun tools/promptguard.ts init${c.reset}
+  
+  ${c.dim}# Snapshot a prompt${c.reset}
+  ${c.cyan}bun tools/promptguard.ts snapshot prompts/agent.md -m "initial baseline"${c.reset}
+  
+  ${c.dim}# Check for drift in CI${c.reset}
+  ${c.cyan}bun tools/promptguard.ts check --json${c.reset}
+  
+  ${c.dim}# See what changed${c.reset}
+  ${c.cyan}bun tools/promptguard.ts diff prompts/agent.md${c.reset}
+
+${c.bold}First Time?${c.reset}
+  1. Run ${c.cyan}init${c.reset} to set up PromptGuard
+  2. Run ${c.cyan}snapshot <file> -m "baseline"${c.reset} to create your first baseline
+  3. Run ${c.cyan}check${c.reset} to verify all prompts pass
+
+${c.dim}Docs: https://github.com/mediamarktatti-maker/promptguard${c.reset}
   `);
 }
 
 function main() {
   const [cmd, ...rest] = process.argv.slice(2);
-  if (!cmd) return cmdHelp();
+
+  // Handle flags before commands
+  if (!cmd || cmd === "--help" || cmd === "-h") return cmdHelp();
+  if (cmd === "--version" || cmd === "-v") return cmdVersion();
 
   if (cmd === "init") return cmdInit();
+  if (cmd === "status") return cmdStatus();
   if (cmd === "snapshot") {
     const file = rest[0];
     const mIndex = rest.findIndex((x: string) => x === "-m" || x === "--message");
@@ -557,7 +630,12 @@ function main() {
     return cmdCheck(json);
   }
   if (cmd === "doctor") return cmdDoctor();
-  return cmdHelp();
+
+  // Unknown command - helpful error
+  console.error(`${c.red}${c.bold}Unknown command:${c.reset} ${cmd}`);
+  console.error(`${c.dim}Run ${c.cyan}bun tools/promptguard.ts --help${c.reset}${c.dim} for usage${c.reset}\n`);
+  process.exit(1);
 }
 
 main();
+
