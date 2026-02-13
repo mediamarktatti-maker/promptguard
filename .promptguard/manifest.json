@@ -1,12 +1,20 @@
 {
   "version": 1,
   "prompts": {
-    "prompts/code-review.prompt.md": {},
+    "prompts/code-review.prompt.md": {
+      "lastSnapshotPath": ".promptguard/history/prompts-code-review.prompt.md/2026-02-13T16-09-24-539Z.md",
+      "lastSnapshotSha": "671acfc7",
+      "lastSnapshotAt": "2026-02-13T16:09:24.541Z"
+    },
     "prompts/example.prompt.md": {
       "lastSnapshotPath": ".promptguard/history/prompts-example.prompt.md/2026-02-08T16-57-24-086Z.md",
       "lastSnapshotSha": "9427f346",
       "lastSnapshotAt": "2026-02-08T16:57:24.087Z"
     },
-    "prompts/translation.prompt.md": {}
+    "prompts/translation.prompt.md": {
+      "lastSnapshotPath": ".promptguard/history/prompts-translation.prompt.md/2026-02-13T16-09-35-315Z.md",
+      "lastSnapshotSha": "7ba53081",
+      "lastSnapshotAt": "2026-02-13T16:09:35.318Z"
+    }
   }
 }

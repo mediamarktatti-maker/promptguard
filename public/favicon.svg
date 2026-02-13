@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="shieldGradDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4338ca"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <!-- Shield body -->
+  <path d="M32 4 L56 16 V34 C56 46 46 56 32 60 C18 56 8 46 8 34 V16 Z" 
+        fill="url(#shieldGrad)" stroke="url(#shieldGradDark)" stroke-width="1.5" filter="url(#glow)"/>
+  <!-- Inner shield highlight -->
+  <path d="M32 10 L50 19 V33 C50 43 42 51 32 54 C22 51 14 43 14 33 V19 Z" 
+        fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <!-- Checkmark -->
+  <path d="M22 32 L29 39 L42 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

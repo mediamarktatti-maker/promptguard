@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { PromptguardDemo } from "@/components/PromptguardDemo";
 import { SpotlightHero } from "@/components/SpotlightHero";
+import { CursorTrail } from "@/components/CursorTrail";
 import {
   FileText,
   GitBranch,
@@ -85,6 +86,7 @@ const Index = () => {
 
   return (
     <main className="min-h-screen bg-background relative">
+      <CursorTrail />
       {showEasterEgg && <Confetti />}
 
       {/* Navigation Bar */}

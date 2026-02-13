@@ -6,7 +6,7 @@ Thank you for your interest in contributing! 🎉
 
 ```bash
 # Clone and install
-git clone https://github.com/your-repo/promptguard
+git clone https://github.com/mediamarktatti-maker/promptguard
 cd promptguard
 bun install
 
