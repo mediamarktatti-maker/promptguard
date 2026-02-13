@@ -169,7 +169,7 @@ bun tools/promptguard.ts check
 > Thanks for watching!"
 
 **DO:**
-- Show GitHub URL on screen: `github.com/vibe-flow-fixer/promptguard`
+- Show GitHub URL on screen: `github.com/mediamarktatti-maker/promptguard`
 - Wave or smile at camera (if showing face)
 - End screen with logo/URL
 

@@ -117,7 +117,7 @@ const Index = () => {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => window.open("https://github.com", "_blank")}
+              onClick={() => window.open("https://github.com/mediamarktatti-maker/promptguard", "_blank")}
               className="gap-2"
             >
               <Github className="h-4 w-4" />
@@ -181,7 +181,7 @@ const Index = () => {
               <Button
                 variant="ghost"
                 size="lg"
-                onClick={() => window.open("https://github.com", "_blank")}
+                onClick={() => window.open("https://github.com/mediamarktatti-maker/promptguard", "_blank")}
               >
                 <Github className="mr-2 h-4 w-4" />
                 View on GitHub
@@ -374,7 +374,7 @@ const Index = () => {
           </p>
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com"
+              href="https://github.com/mediamarktatti-maker/promptguard"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground transition hover:text-foreground"
